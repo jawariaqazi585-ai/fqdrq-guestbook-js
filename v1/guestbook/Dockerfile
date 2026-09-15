@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm install --production
+RUN npm ci --omit=dev && test -f node_modules/express/package.json
 
 # Copy application source
 COPY server.js ./
