@@ -10,11 +10,9 @@ RUN npm install --production
 COPY server.js ./
 COPY public ./public/
 
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && adduser -S nodeuser -u 1001
-
-RUN chown -R nodeuser:nodejs /app
-USER nodeuser
+# Make the app directory accessible to OpenShift's arbitrarily assigned
+# non-root UID (which always belongs to group 0 / root group)
+RUN chgrp -R 0 /app && chmod -R g=u /app
 
 EXPOSE 3000
 CMD ["node", "server.js"]
