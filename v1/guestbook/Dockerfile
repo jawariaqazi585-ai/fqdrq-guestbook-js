@@ -2,9 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy pre-installed dependencies
-COPY node_modules ./node_modules
+# Install dependencies
 COPY package*.json ./
+RUN npm install --production
 
 # Copy application source
 COPY server.js ./
