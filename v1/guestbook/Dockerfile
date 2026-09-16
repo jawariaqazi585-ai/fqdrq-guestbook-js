@@ -4,7 +4,10 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci --omit=dev && test -f node_modules/express/package.json
+RUN npm install -g npm@latest && \
+    npm cache clean --force && \
+    npm ci --omit=dev --no-audit --no-fund && \
+    test -f node_modules/express/package.json
 
 # Copy application source
 COPY server.js ./
